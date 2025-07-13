@@ -1,0 +1,14 @@
+catboost:
+  loss_function: "Logloss"
+  verbose: False
+  random_state: 34
+  n_estimators: 374
+  learning_rate: 0.10312313809306936
+  max_depth: 8
+  l2_leaf_reg: 12
+  random_strength: 1.0770311085781668
+  bagging_temperature: 5.598920042252644
+  eval_metric: "AUC"
+  subsample: 0.8
+  class_weights: [0.790675423468544, 1.3600658322496748]
+

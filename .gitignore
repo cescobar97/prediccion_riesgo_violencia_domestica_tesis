@@ -1,0 +1,17 @@
+# Ignorar todos los archivos CSV (datasets)
+*.csv
+
+# Ignorar carpetas de datos 
+/data/
+catboost_info/
+*.keras
+
+
+# Ignorar notebooks checkpoint de Jupyter
+.ipynb_checkpoints/
+*.DS_Store
+dist/
+*.egg-info/
+__pycache__/
+.vscode
+
