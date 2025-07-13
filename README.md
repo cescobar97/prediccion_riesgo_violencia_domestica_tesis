@@ -53,14 +53,14 @@ Para ejecutar este proyecto, **Docker** es la forma más fácil. Se puede descar
 
 La forma más sencilla de ejecutar esta aplicación es utilizando una imagen ya construida disponible en Docker Hub. No es necesario clonar el repositorio ni instalar dependencias.
 
-1. **Ejecutá los siguientes comandos en la terminal:**
+1. **Ejecutar los siguientes comandos:**
 
     ```bash
     docker pull cescobar97/prediccion_riesgo_violencia_domestica:latest
     docker run -p 8501:8501 cescobar97/prediccion_riesgo_violencia_domestica:latest
     ```
 
-2. **Abrí el navegador y accedé a:**
+2. **Abrir el navegador y acceder a:**
 
     [http://localhost:8501/](http://localhost:8501/)
 
