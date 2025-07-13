@@ -60,9 +60,9 @@ La forma más sencilla de ejecutar esta aplicación es utilizando una imagen ya 
     docker run -p 8501:8501 cescobar97/prediccion_riesgo_violencia_domestica:latest
     ```
 
-2. **Abrir el navegador y acceder a:**
+2. El paso anterior abrirá la aplicación en el navegador en el puerto 8501, donde se puede interactuar con la aplicación de Streamlit y generar predicciones.
 
-    [http://localhost:8501/](http://localhost:8501/)
+
 
 ---
 
@@ -95,4 +95,4 @@ Si fuera necesario construir la imagen de Docker, se deben seguir los siguientes
     docker run -p 8501:8501 prediccion_riesgo_violencia_domestica
     ```
 
-    Esto abrirá la aplicación en el navegador en el puerto `8501`, donde podrás interactuar con la aplicación de Streamlit y generar predicciones.
+    Esto abrirá la aplicación en el navegador en el puerto `8501`, donde se puede interactuar con la aplicación de Streamlit y generar predicciones.
