@@ -68,7 +68,7 @@ La forma más sencilla de ejecutar esta aplicación es utilizando una imagen ya 
 
 ### Opción 2
 
-Si fuera necesario construir le imagen de Docker, se deben seguir los siguientes pasos:
+Si fuera necesario construir la imagen de Docker, se deben seguir los siguientes pasos:
 
 1. **Clonar este repositorio:**
 
