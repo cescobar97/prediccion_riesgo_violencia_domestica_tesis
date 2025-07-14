@@ -9,6 +9,7 @@ Este repositorio contiene los archivos necesarios para ejecutar la aplicación y
 - **`Análisis Exploratorio de Datos y Desarrollo de Modelo`**: Dentro de esta carpeta se encuentra:
   - **`Desarrollo.ipynb`**: Script que contiene el entrenamiento de distintos modelos, sus respectivas métricas de performance y la elección del mejor en base a estas últimas.
   - **`EDA.ipynb`**: Análisis Exploratorio de Datos de las Denuncias de Violencia Doméstica de la OVD. También se analizan las denuncias de la linea 144.
+  - **`requirements_desarrollo_eda.txt`**: Contiene las librerías necesarias para las notebooks de desarrollo y EDA. 
     
   Además en esta carpeta se necesitan:
   - **`denuncias_2017.csv`**: Archivo csv con datos sobre denuncias de violencia doméstica para el año 2017 de la OVD. Este archivo se utiliza para el entrenamiento del modelo.
@@ -30,6 +31,7 @@ Este repositorio contiene los archivos necesarios para ejecutar la aplicación y
 - **`src`**: Dentro de esta carpeta se encuentra:
   - **`modelo_entrenamiento.py`**: Script que contiene el entrenamiento del modelo. Desde este archivo se generan los archivos `model.pkl`, `normalizer.pkl`, `limites_deciles.pkl`, `col_nums.pkl`, `columns.pkl` que se depositan en la carpeta 'model'. Estos archivos ya se encuentran en el repositorio, por lo tanto no es necesario correrlo si no se desea.
     Además en esta carpeta también se necesitan las denuncias en archivo csv.
+  - **`requirements_entrenamiento.txt`**: Contiene las librerías necesarias para el script de entrenamiento.
 
 - **`model`**: 
   - Dentro de esta carpeta se encuentra los archivos generados por el script `modelo_produccion`: `model.pkl`, `normalizer.pkl`, `limites_deciles.pkl`, `col_nums.pkl`, `columns.pkl` 
@@ -46,6 +48,27 @@ Este repositorio contiene los archivos necesarios para ejecutar la aplicación y
 Para ejecutar este proyecto, **Docker** es la forma más fácil. Se puede descargar en [descargarlo aquí](https://www.docker.com/get-started). No es necesario instalar Python ni las librerías manualmente si se utiliza Docker.
 
 ## Instrucciones de uso
+
+### Opción 1
+
+La forma más sencilla de ejecutar esta aplicación es utilizando una imagen ya construida disponible en Docker Hub. No es necesario clonar el repositorio ni instalar dependencias.
+
+1. **Ejecutar los siguientes comandos:**
+
+    ```bash
+    docker pull cescobar97/prediccion_riesgo_violencia_domestica:latest
+    docker run -p 8501:8501 cescobar97/prediccion_riesgo_violencia_domestica:latest
+    ```
+
+2. El paso anterior abrirá la aplicación en el navegador en el puerto 8501, donde se puede interactuar con la aplicación de Streamlit y generar predicciones.
+
+
+
+---
+
+### Opción 2
+
+Si fuera necesario construir la imagen de Docker, se deben seguir los siguientes pasos:
 
 1. **Clonar este repositorio:**
 
@@ -72,4 +95,4 @@ Para ejecutar este proyecto, **Docker** es la forma más fácil. Se puede descar
     docker run -p 8501:8501 prediccion_riesgo_violencia_domestica
     ```
 
-    Esto abrirá la aplicación en el navegador en el puerto `8501`, donde podrás interactuar con la aplicación de Streamlit y generar predicciones.
+    Esto abrirá la aplicación en el navegador en el puerto `8501`, donde se puede interactuar con la aplicación de Streamlit y generar predicciones.
