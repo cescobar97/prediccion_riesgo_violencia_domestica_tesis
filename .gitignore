@@ -5,6 +5,7 @@
 /data/
 catboost_info/
 *.keras
+venv/
 
 
 # Ignorar notebooks checkpoint de Jupyter

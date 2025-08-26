@@ -801,7 +801,7 @@ df['mes_barrio'] = df['mes'] + '_' + df['barrio']
 
 # Se elimiman variables innecesarias para el entrenamiento del modelo
 df = df.drop(columns=['id_datos_abiertos_legajo', 'id_datos_abiertos_persona','edad_inicio_rango','denunciada_edad_inicio_rango','frecuencia_codificada','mes','barrio'])
-print(df.columns)
+
 
 def fit_normalizer(input_data: pd.DataFrame) -> StandardScaler:
 
@@ -937,6 +937,7 @@ threshold = 0.44
 y_pred = np.where(Y_pred_proba >= threshold, 1, 0)
 conf_matrix = confusion_matrix(y_test, y_pred)
 
+ 
 print("Matriz de Confusión:")
 print(conf_matrix)
 
@@ -944,6 +945,8 @@ print(conf_matrix)
 report = classification_report(y_test, y_pred)
 print("Tabla de clasificación usando un threshold de 0.44:")
 print(report)
+
+
 
 # Calcular deciles
 def calcular_limites_deciles(probabilities: np.array, actual_values: np.array):
@@ -967,7 +970,9 @@ def calcular_limites_deciles(probabilities: np.array, actual_values: np.array):
     
     # Asignar los deciles (grupos por probabilidades)
     results['Decile'] = pd.qcut(results['Probability'], q=10, labels=False)
-    
+
+    results['Decile'] = results['Decile']+1
+
     # Calcular la media de los valores reales por decil
     decile_stats = results.groupby('Decile')['Actual'].mean().reset_index()
     
@@ -996,4 +1001,69 @@ deciles=calcular_limites_deciles(Y_pred_proba,y_test)
 
 print("Limites de deciles:", deciles)
 
+# KS por decil
+def graficar_ks_desde_deciles(probabilities: np.array, actual_values: np.array):
+    """
+    Calcula y grafica la curva KS (Kolmogorov-Smirnov) a partir de las probabilidades de predicción,
+    dividiendo los datos en deciles y comparando la distribución acumulada de positivos y negativos. 
+    
+    Parámetros:
+    'probabilities': Un array de probabilidades de predicción.
+    'actual_values': Un array de valores reales o clases.
+    
+    No retorna ningún valor; muestra el gráfico con las curvas acumuladas y la distancia máxima entre ellas (KS máximo).
+    """
+
+    # Crear DataFrame
+    results = pd.DataFrame({'Actual': actual_values, 'Probability': probabilities})
+    
+    # Asignar deciles con qcut
+    results['Decile'] = pd.qcut(results['Probability'], q=10, labels=False)
+    results['Decile'] = results['Decile'] + 1  
+    
+    # Agrupar por decil
+    decile_stats = results.groupby('Decile')['Actual'].agg(['count','sum']).reset_index()
+    decile_stats['negativos'] = decile_stats['count'] - decile_stats['sum']
+    
+    # Distribuciones acumuladas
+    cum_positivos = np.cumsum(decile_stats['sum']) / decile_stats['sum'].sum()
+    cum_negativos = np.cumsum(decile_stats['negativos']) / decile_stats['negativos'].sum()
+    
+    # KS por decil
+    ks_values = np.abs(cum_positivos - cum_negativos)
+    ks_max = ks_values.max()
+    ks_max_index = ks_values.idxmax()
+    
+    # Gráfico KS 
+    plt.figure(figsize=(8,6))
+    plt.plot(decile_stats['Decile'], cum_positivos, marker='o', label='Positivos acumulados')
+    plt.plot(decile_stats['Decile'], cum_negativos, marker='o', label='Negativos acumulados')
+
+    print("Se grafica KS por decil")
+
+    # Línea vertical del KS máximo
+    plt.vlines(
+        x=decile_stats['Decile'][ks_max_index], 
+        ymin=cum_negativos[ks_max_index], 
+        ymax=cum_positivos[ks_max_index],
+        colors='red', linestyles='dashed', 
+        label=f'KS máximo = {ks_max:.3f}'
+    )
+
+    plt.title('Curva KS por Decil', fontsize=20, fontname='Times New Roman')
+    plt.xlabel('Deciles de Probabilidad', fontsize=12, fontname='Times New Roman')
+    plt.ylabel('Distribución Acumulada', fontsize=12, fontname='Times New Roman')
+
+    plt.xticks(ticks=decile_stats['Decile'], labels=decile_stats['Decile'], fontsize=12, fontname='Times New Roman')
+    plt.yticks(fontsize=12, fontname='Times New Roman')
+    
+    plt.legend(prop={"family": "Times New Roman", "size": 12})
+    plt.grid(True)
+    plt.show()
+
+
+graficar_ks_desde_deciles(Y_pred_proba, y_test)
+
+
 print('Fin del script de entrenamiento')
+
